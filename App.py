@@ -1,1 +1,2 @@
-print("HI KK")
+import requests
+url = "https://affirmations.dev/"
