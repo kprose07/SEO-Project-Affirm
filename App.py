@@ -1,4 +1,5 @@
 from pip._vendor import requests
+
 limit = 10
 category = 'hope'
 api_url = 'https://api.api-ninjas.com/v1/quotes?category={}'.format(category)
@@ -7,12 +8,12 @@ rdict = response.json()
 quote = rdict[0].get('quote')
 if response.status_code == requests.codes.ok:
     
-    print(rdict)
+    print(quote)
     
     save = input("Would you like to save this quote? (Y or N) ")
     if save == "Y" or save == "y":
         print( "quote saved")
     else:
-        print("OK BYE!")
+        print("OK! See you tommorrow!")
 else:
     print("Error:", response.status_code, response.text)
