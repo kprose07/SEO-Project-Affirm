@@ -1,4 +1,4 @@
-# SEO-Project-Affirm
+# SEO-Project-Quotify
 ## Project Instructions
 ![Logo](Quotify.png)
 
