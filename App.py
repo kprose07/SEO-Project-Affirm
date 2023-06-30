@@ -1,9 +1,17 @@
 import requests
 import pymysql
 import os
+from twilio.rest import Client
 
 #GET API Key
 APIKey = os.environ.get('APIKEY')
+
+## SET UP Twillo
+# Find your Account SID and Auth Token at twilio.com/console
+# and set the environment variables. See http://twil.io/secure
+account_sid = os.environ['TWIL_SID']
+auth_token = os.environ['TWILIO_API_KEY']
+client = Client(account_sid, auth_token)
 
 # API Data
 limit = 10
@@ -35,7 +43,10 @@ query = f"INSERT INTO myquotesdata (Quote,Author,Category) VALUES ('{quote}','{a
 #Read Data
 check = cur.execute("SELECT * FROM myquotesdata")
 
-  
+
+#Fetch to str
+text_saved = []
+view_saved_str = ""
 # fetch all the matching rows 
 def viewSavedQuotes():
     if check:
@@ -44,10 +55,21 @@ def viewSavedQuotes():
         for row in result:
             print(row)
             print("\n")
-
+            text_saved.append(row)
+        view_saved_str = " ".join(map(str, text_saved))
+             
+# Send message
+def sendMessage():
+    message = client.messages \
+    .create(
+         body=quote,
+         from_='+18556200235',
+         to='+18034766717'
+     )
 #App Logic
 if response.status_code == requests.codes.ok:
     print('Topic: '+category+'\n'+'Written By: ' +author+'\n'+'"'+quote+'"')
+    sendMessage()
     save = input("Press Y to Save Quote, Press V to View, or Press N to exit. ")
     if save == "Y" or save == "y":
         cur.execute(query)
